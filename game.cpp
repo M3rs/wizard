@@ -143,29 +143,17 @@ void Game::play()
         return;
     }
 
+    DrawEngine renderer;
+
     SDL_Event ev;
 
     while ( run )
     {
-        /*
-        while ( SDL_PollEvent( &ev ) )
-        {
-            if ( ev.type == SDL_QUIT )
-            {
-                run = false;
-            }
-        }
-        */
 
         states.back()->handle_events( &ev );
         states.back()->update();
         check_state();
         states.back()->render();
-
-        // state->handle_events(ev);
-        // state->update(time);
-        // check_state();
-        // state->render();
 
     }
 

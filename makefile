@@ -10,7 +10,7 @@ Linux:
 	g++ -std=c++11 -c game.cpp
 	g++ -c menustate.cpp
 	g++ -c drawengine.cpp
-	g++ -Wall main.o game.o menustate.o drawengine.o -o wizard -lSDL2 -lGL
+	g++ -Wall main.o game.o menustate.o drawengine.o -o wizard -lSDL2 -lSDL2_image -lGL
 
 Darwin:
 	g++ -c main.cpp
