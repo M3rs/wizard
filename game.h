@@ -9,7 +9,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
+#ifdef __APPLE__
 #include <OpenGL/GL.h>
+#else
+#include <GL/gl.h>
+#endif
 
 class Game
 {
