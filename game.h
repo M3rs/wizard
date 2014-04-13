@@ -5,6 +5,7 @@
 #define GAME_H
 
 #include <iostream>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -14,6 +15,9 @@
 #else
 #include <GL/gl.h>
 #endif
+
+#include "gamestate.h"
+#include "menustate.h"
 
 class Game
 {
@@ -29,6 +33,8 @@ private:
 
     SDL_Window *window;
     SDL_GLContext glContext;
+
+    std::vector<GameState*> states;
 
     bool run;
 

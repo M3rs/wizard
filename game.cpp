@@ -15,6 +15,12 @@ Game::Game() : SCREEN_WIDTH(640), SCREEN_HEIGHT(480)
 Game::~Game()
 {
     std::cout << ">> Cleaning up game: \n";
+    
+    for ( auto& state : states )
+    {
+        state->cleanup();
+        delete state;
+    }
 
     if ( glContext )
     {
@@ -47,6 +53,9 @@ bool Game::setup()
     }
 
     std::cout << "Game setup was successful! \n";
+    
+    states.push_back( new MenuState );
+    states.back()->message = GS_NONE;
 
     return true;
 
@@ -138,6 +147,7 @@ void Game::play()
 
     while ( run )
     {
+        /*
         while ( SDL_PollEvent( &ev ) )
         {
             if ( ev.type == SDL_QUIT )
@@ -145,6 +155,12 @@ void Game::play()
                 run = false;
             }
         }
+        */
+
+        states.back()->handle_events( &ev );
+        states.back()->update();
+        check_state();
+        states.back()->render();
 
         // state->handle_events(ev);
         // state->update(time);
@@ -158,7 +174,12 @@ void Game::play()
 
 void Game::check_state()
 {
-    // switch( state->message ) ??
+    switch( states.back()->message )
+    {
+    case GS_QUIT:
+        run = false;
+        break;
+    }
     // case GS_QUIT:
     //  run = false;
     //  break;
