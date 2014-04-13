@@ -28,6 +28,13 @@ void MenuState::handle_events( SDL_Event * ev )
         case SDL_QUIT:
            message = GS_QUIT;
            break;
+        case SDL_KEYDOWN:
+            switch ( ev->key.keysym.sym )
+            {
+            case SDLK_ESCAPE:
+                message = GS_QUIT;
+                break;
+            }
         }
     }
 }

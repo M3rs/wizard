@@ -16,6 +16,8 @@
 #include <GL/gl.h>
 #endif
 
+#include "drawengine.h"
+
 #include "gamestate.h"
 #include "menustate.h"
 
@@ -34,6 +36,7 @@ private:
     SDL_Window *window;
     SDL_GLContext glContext;
 
+    DrawEngine renderer;
     std::vector<GameState*> states;
 
     bool run;
