@@ -1,0 +1,10 @@
+Figure out vector of textures in drawengine
+
+GLuint texture
+
+textures.push_back(new GLuint);
+textures.back() = texture;
+
+glDeleteTextures(1, &texture);
+
+Or something like this... ??
