@@ -13,7 +13,7 @@ Linux:
 
 Darwin:
 	g++ -c main.cpp
-	g++ -c game.cpp
+	g++ -std=c++11 -c game.cpp
 	g++ -c menustate.cpp
 	g++ -Wall main.o game.o menustate.o -o wizard -lSDL2 -framework OpenGL
 
