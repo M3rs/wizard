@@ -8,3 +8,11 @@ textures.back() = texture;
 glDeleteTextures(1, &texture);
 
 Or something like this... ??
+
+
+-- 
+
+Did some testing with texture, could not get to work.
+
+Fix this................. =\
+
