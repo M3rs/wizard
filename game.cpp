@@ -144,6 +144,21 @@ void Game::play()
     }
 
     DrawEngine renderer;
+    int i;
+    i = renderer.load_bmp( "test1.png" );
+
+    
+    if ( i > -1 )
+    {
+        std::cout << "worked??? " << i << "\n";
+
+    }
+    else
+    {
+        std::cout << "failed: " << i << "\n";
+    }
+    
+    
 
     SDL_Event ev;
 
@@ -154,6 +169,28 @@ void Game::play()
         states.back()->update();
         check_state();
         states.back()->render();
+
+        // testing code:
+        glClear( GL_COLOR_BUFFER_BIT );
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        glTranslated(0,0,0);
+        glBindTexture(GL_TEXTURE_2D, *renderer.textures[i] );
+        glEnable(GL_TEXTURE_2D);
+
+        glBegin(GL_QUADS);
+        glTexCoord2i(0,0);
+        glVertex2f(0,0);
+        glTexCoord2i(1,0);
+        glVertex2f(100,0);
+        glTexCoord2i(1,1);
+        glVertex2f(100,100);
+        glTexCoord2i(0,1);
+        glVertex2f(0,100);
+        glEnd();
+
+        SDL_GL_SwapWindow( window );
 
     }
 

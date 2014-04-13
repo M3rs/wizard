@@ -11,13 +11,21 @@ DrawEngine::DrawEngine()
 DrawEngine::~DrawEngine()
 {
 
+    std::cout << "~ Cleaning up drawengine \n";
+/*
+    for ( auto& texture : textures )
+    {
+        glDeleteTextures(1, &texture);
+    }
+*/
 }
 
 int DrawEngine::load_bmp( const char * filename )
 {
     
     SDL_Surface *surface;
-    GLuint texture;
+    //GLuint texture;
+    textures.push_back(new GLuint);
 
     surface = IMG_Load( filename );
     if ( !surface )
@@ -26,14 +34,32 @@ int DrawEngine::load_bmp( const char * filename )
         return -1;
     }
 
+    int num_colors = surface->format->BytesPerPixel;
     int color_mode;
-    if ( surface->format->BytesPerPixel == 3 ) // RGB 24bit
+    
+    if ( num_colors == 3 ) // RGB 24bit
     {
-        color_mode = GL_RGB;
+        if (surface->format->Rmask == 0x000000ff)
+        {
+            std::cout << ">> 3 color RGB \n";
+            color_mode = GL_RGB;
+        }
+        else
+        {
+            color_mode = GL_BGR;
+        }
     }
-    else if (surface->format->BytesPerPixel == 4 ) // RGBA 32bit
+    else if (num_colors == 4 ) // RGBA 32bit
     {
-        color_mode = GL_RGBA;
+        if (surface->format->Rmask == 0x000000ff)
+        {
+            std::cout << ">> 4 color RGBA \n";
+            color_mode = GL_RGBA;
+        }
+        else
+        {
+            color_mode = GL_BGRA;
+        }
     }
     else
     {
@@ -42,21 +68,26 @@ int DrawEngine::load_bmp( const char * filename )
         return -2;
     }
 
-    glGenTextures(1, &texture);
+    //glGenTextures(1, &texture);
+    glGenTextures(1, textures.back());
 
-    glBindTexture(GL_TEXTURE_2D, texture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, color_mode, surface->w, surface->h, 0, color_mode, GL_UNSIGNED_BYTE, surface->pixels);
+    //glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, *textures.back());
 
     // for how texture is drawn later
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    //glTexImage2D(GL_TEXTURE_2D, 0, num_colors, surface->w, surface->h, 0, color_mode, GL_UNSIGNED_BYTE, surface->pixels);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
 
     // clean up
     SDL_FreeSurface( surface );
 
-    textures.push_back( texture );
+    //textures.push_back( texture );
 
     return textures.size() - 1;
+    //return texture;
 
 }

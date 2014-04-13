@@ -17,7 +17,7 @@ public:
     DrawEngine();
     ~DrawEngine();
 
-    std::vector<GLuint> textures;
+    std::vector<GLuint*> textures;
 
     int load_bmp( const char * filename );
 
