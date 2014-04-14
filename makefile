@@ -16,8 +16,8 @@ Darwin:
 	g++ -c main.cpp
 	g++ -std=c++11 -c game.cpp
 	g++ -c menustate.cpp
-	g++ -c drawengine.cpp
-	g++ -Wall main.o game.o menustate.o drawengine.o -o wizard -lSDL2 -framework OpenGL
+	g++ -std=c++11 -c drawengine.cpp
+	g++ -Wall main.o game.o menustate.o drawengine.o -o wizard -lSDL2 -lSDL2_image -framework OpenGL
 
 run:
 	./wizard
