@@ -18,10 +18,24 @@ DrawEngine::~DrawEngine()
         glDeleteTextures(1, &texture);
     }
 */
+    while( !loaded_textures.empty() )
+    {
+        delete loaded_textures.back();
+        loaded_textures.pop_back();
+    }
+
 }
 
 int DrawEngine::load_bmp( const char * filename )
 {
+
+    for ( int index = 0; index < loaded_textures.size(); index++ )
+    {
+        if ( strcmp( filename, loaded_textures[index]->file_name ) == 0 )
+        {
+            return loaded_textures[index]->index;
+        }
+    }
     
     SDL_Surface *surface;
     //GLuint texture;
