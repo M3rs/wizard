@@ -108,6 +108,8 @@ bool Game::initGL()
 
     glEnable( GL_TEXTURE_2D );
 
+    glEnable( GL_BLEND );
+
     glViewport( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 
     // Init projection matrix
