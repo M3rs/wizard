@@ -1,5 +1,3 @@
-drawengine.* : Rename load_bmp to something else, load_image?
-
 game.cpp : remove test draw code
 
 drawengine.* : add method to draw
