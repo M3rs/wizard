@@ -1,18 +1,7 @@
-Figure out vector of textures in drawengine
+drawengine.* : Rename load_bmp to something else, load_image?
 
-GLuint texture
+game.cpp : remove test draw code
 
-textures.push_back(new GLuint);
-textures.back() = texture;
+drawengine.* : add method to draw
 
-glDeleteTextures(1, &texture);
-
-Or something like this... ??
-
-
--- 
-
-Did some testing with texture, could not get to work.
-
-Fix this................. =\
-
+create game object class of some sort
