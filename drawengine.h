@@ -13,8 +13,8 @@
 
 struct Texture
 {
-    int index;
     const char * file_name;
+    GLuint gl_texture;
 };
 
 class DrawEngine
@@ -23,7 +23,6 @@ public:
     DrawEngine();
     ~DrawEngine();
 
-    std::vector<GLuint*> textures;
     std::vector<Texture*> loaded_textures;
 
     int load_bmp( const char * filename );

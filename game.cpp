@@ -114,6 +114,12 @@ bool Game::initGL()
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
 
+    // VERY IMPORTANT TO SET THIS !!!!!!!!!!!!!!!!!!!!!!!!
+    glOrtho(0.f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.f, -1.f, 1.f);
+
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
     error = glGetError();
     if ( error != GL_NO_ERROR )
     {
@@ -175,9 +181,9 @@ void Game::play()
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        glTranslated(0,0,0);
-        glBindTexture(GL_TEXTURE_2D, *renderer.textures[i] );
-        glEnable(GL_TEXTURE_2D);
+        glTranslated(100,100,0);
+        glBindTexture(GL_TEXTURE_2D, renderer.loaded_textures[i]->gl_texture );
+        //glEnable(GL_TEXTURE_2D);
 
         glBegin(GL_QUADS);
         glTexCoord2i(0,0);

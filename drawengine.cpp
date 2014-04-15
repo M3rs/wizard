@@ -12,12 +12,7 @@ DrawEngine::~DrawEngine()
 {
 
     std::cout << "~ Cleaning up drawengine \n";
-/*
-    for ( auto& texture : textures )
-    {
-        glDeleteTextures(1, &texture);
-    }
-*/
+
     while( !loaded_textures.empty() )
     {
         delete loaded_textures.back();
@@ -33,13 +28,11 @@ int DrawEngine::load_bmp( const char * filename )
     {
         if ( strcmp( filename, loaded_textures[index]->file_name ) == 0 )
         {
-            return loaded_textures[index]->index;
+            return index; // image already loaded in texture bucket
         }
     }
     
     SDL_Surface *surface;
-    //GLuint texture;
-    textures.push_back(new GLuint);
 
     surface = IMG_Load( filename );
     if ( !surface )
@@ -48,8 +41,8 @@ int DrawEngine::load_bmp( const char * filename )
         return -1;
     }
 
-    int num_colors = surface->format->BytesPerPixel;
-    int color_mode;
+    GLint num_colors = surface->format->BytesPerPixel;
+    GLenum color_mode;
     
     if ( num_colors == 3 ) // RGB 24bit
     {
@@ -82,26 +75,24 @@ int DrawEngine::load_bmp( const char * filename )
         return -2;
     }
 
-    //glGenTextures(1, &texture);
-    glGenTextures(1, textures.back());
+    loaded_textures.push_back( new Texture );
+    loaded_textures.back()->file_name = filename;
+    loaded_textures.back()->gl_texture = 0;
 
+    glGenTextures(1, &loaded_textures.back()->gl_texture);
+    glBindTexture(GL_TEXTURE_2D, loaded_textures.back()->gl_texture);
 
-    //glBindTexture(GL_TEXTURE_2D, texture);
-    glBindTexture(GL_TEXTURE_2D, *textures.back());
-
-    // for how texture is drawn later
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    //glTexImage2D(GL_TEXTURE_2D, 0, num_colors, surface->w, surface->h, 0, color_mode, GL_UNSIGNED_BYTE, surface->pixels);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,surface->w, surface->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
+    glTexImage2D(GL_TEXTURE_2D,0,num_colors,surface->w, surface->h, 0, color_mode, GL_UNSIGNED_BYTE, surface->pixels);
 
     // clean up
-    SDL_FreeSurface( surface );
+    if ( surface )
+    {
+        SDL_FreeSurface( surface );
+    }
 
-    //textures.push_back( texture );
-
-    return textures.size() - 1;
-    //return texture;
+    return loaded_textures.size() - 1;
 
 }
