@@ -25,7 +25,7 @@ public:
 
     std::vector<Texture*> loaded_textures;
 
-    int load_bmp( const char * filename );
+    int load_image( const char * filename );
 
 };
 

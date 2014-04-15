@@ -21,7 +21,7 @@ DrawEngine::~DrawEngine()
 
 }
 
-int DrawEngine::load_bmp( const char * filename )
+int DrawEngine::load_image( const char * filename )
 {
 
     for ( int index = 0; index < loaded_textures.size(); index++ )

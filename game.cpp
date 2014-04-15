@@ -151,20 +151,14 @@ void Game::play()
 
     DrawEngine renderer;
     int i;
-    i = renderer.load_bmp( "test1.png" );
-
-    
-    if ( i > -1 )
+    i = renderer.load_image( "test2.png" );
+    if ( i < 0 )
     {
-        std::cout << "worked??? " << i << "\n";
+        std::cout << "error loading image \n";
+    }
 
-    }
-    else
-    {
-        std::cout << "failed: " << i << "\n";
-    }
-    
-    
+    int j = renderer.load_image( "test1.png" );
+
 
     SDL_Event ev;
 
@@ -182,6 +176,26 @@ void Game::play()
         glLoadIdentity();
 
         glTranslated(100,100,0);
+        glBindTexture(GL_TEXTURE_2D, renderer.loaded_textures[j]->gl_texture );
+        //glEnable(GL_TEXTURE_2D);
+
+        glBegin(GL_QUADS);
+        glTexCoord2i(0,0);
+        glVertex2f(0,0);
+        glTexCoord2i(1,0);
+        glVertex2f(100,0);
+        glTexCoord2i(1,1);
+        glVertex2f(100,100);
+        glTexCoord2i(0,1);
+        glVertex2f(0,100);
+        glEnd();
+        
+        // testing code:
+        //glClear( GL_COLOR_BUFFER_BIT );
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        glTranslated(50,100,0);
         glBindTexture(GL_TEXTURE_2D, renderer.loaded_textures[i]->gl_texture );
         //glEnable(GL_TEXTURE_2D);
 
@@ -195,6 +209,7 @@ void Game::play()
         glTexCoord2i(0,1);
         glVertex2f(0,100);
         glEnd();
+
 
         SDL_GL_SwapWindow( window );
 
