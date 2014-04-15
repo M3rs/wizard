@@ -3,3 +3,5 @@ game.cpp : remove test draw code
 drawengine.* : add method to draw
 
 create game object class of some sort
+
+glEnable( GL_BLEND ) for alpha? 
