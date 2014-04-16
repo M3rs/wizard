@@ -33,7 +33,8 @@ Game::~Game()
         SDL_DestroyWindow( window );
         std::cout << "~ Destroyed Window \n";
     }
-
+    
+    IMG_Quit();
     SDL_Quit();
 
 }
@@ -66,6 +67,12 @@ bool Game::initSDL()
     if ( SDL_Init( SDL_INIT_EVERYTHING) == -1 )
     {
         std::cout << "- SDL_Init() failed \n";
+        return false;
+    }
+
+    if ( !IMG_Init (IMG_INIT_PNG) )
+    {
+        std::cout << "- IMG_Init() failed \n";
         return false;
     }
 
@@ -108,7 +115,13 @@ bool Game::initGL()
 
     glEnable( GL_TEXTURE_2D );
 
-    glEnable( GL_BLEND );
+    glEnable( GL_ALPHA_TEST );
+    glAlphaFunc( GL_GREATER, 0.5 );
+
+    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8);
 
     glViewport( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 
@@ -153,7 +166,7 @@ void Game::play()
 
     DrawEngine renderer;
     int i;
-    i = renderer.load_image( "test2.png" );
+    i = renderer.load_image( "background.png" );
     if ( i < 0 )
     {
         std::cout << "error loading image \n";
