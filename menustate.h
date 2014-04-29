@@ -7,6 +7,8 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "gamestate.h"
 
@@ -21,5 +23,8 @@ public:
     void handle_events( SDL_Event * ev );
     void update(); // TODO: pass in time
     void render(); // pointer for renderer??
+
+private:
+    uint menutext;
 };
 #endif // menustate.h

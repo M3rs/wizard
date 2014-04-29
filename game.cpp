@@ -35,6 +35,7 @@ Game::~Game()
     }
     
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 
 }
@@ -73,6 +74,12 @@ bool Game::initSDL()
     if ( !IMG_Init (IMG_INIT_PNG) )
     {
         std::cout << "- IMG_Init() failed \n";
+        return false;
+    }
+
+    if ( TTF_Init() == -1 )
+    {
+        std::cout << "- TTF_Init() failed \n";
         return false;
     }
 
@@ -117,6 +124,9 @@ bool Game::initGL()
 
     glEnable( GL_ALPHA_TEST );
     glAlphaFunc( GL_GREATER, 0.5 );
+
+    glEnable( GL_BLEND ); // used with TTF
+    //glAlphaFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8);
@@ -183,10 +193,12 @@ void Game::play()
         states.back()->handle_events( &ev );
         states.back()->update();
         check_state();
+        glClear( GL_COLOR_BUFFER_BIT);
         states.back()->render();
 
+        /*
         // testing code:
-        glClear( GL_COLOR_BUFFER_BIT );
+        //glClear( GL_COLOR_BUFFER_BIT );
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
@@ -225,6 +237,7 @@ void Game::play()
         glVertex2f(0,100);
         glEnd();
 
+        */
 
         SDL_GL_SwapWindow( window );
 

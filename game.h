@@ -9,6 +9,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_ttf.h>
 
 #ifdef __APPLE__
 #include <OpenGL/GL.h>
